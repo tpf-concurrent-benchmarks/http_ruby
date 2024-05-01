@@ -7,5 +7,10 @@ Rails.application.routes.draw do
     post "login" => "sessions#create"
 
     get "me" => "users#me"
+
+    get "polls" => "polls#index"
+    get "polls/:id" => "polls#show"
+
+    post "polls" => "polls#create"
   end
 end

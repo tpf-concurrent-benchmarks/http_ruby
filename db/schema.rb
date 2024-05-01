@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_01_182942) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_01_211818) do
+  create_table "poll_options", force: :cascade do |t|
+    t.string "option_text"
+    t.integer "poll_id"
+    t.index ["poll_id"], name: "index_poll_options_on_poll_id"
+  end
+
+  create_table "polls", force: :cascade do |t|
+    t.string "poll_topic"
+    t.integer "creator_id"
+    t.index ["creator_id"], name: "index_polls_on_creator_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.string "option_text"
+    t.integer "poll_option_id"
+    t.index ["poll_option_id"], name: "index_votes_on_poll_option_id"
+  end
+
+  add_foreign_key "poll_options", "polls"
+  add_foreign_key "polls", "users", column: "creator_id"
+  add_foreign_key "votes", "poll_options"
 end
