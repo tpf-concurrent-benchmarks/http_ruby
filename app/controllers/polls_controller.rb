@@ -1,6 +1,7 @@
 class PollsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record
     rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
+    rescue_from Exception, with: :handle_generic_error
 
     def index 
         @polls = Poll.all
@@ -13,15 +14,7 @@ class PollsController < ApplicationController
     end
 
     def create 
-        p = poll_params
-        puts "Poll params: #{p}"
-        @poll = Poll.build(poll_topic: p["poll_topic"], creator_id: p["creator_id"])
-        p["options"].each do |option|
-            puts "Option: #{option}"
-            @poll.poll_options.build(option_text: option)
-        end
-        @poll.save!
-
+        @poll = Poll.create!(poll_params)
         render json: @poll, status: :created
     end
 
@@ -35,7 +28,11 @@ class PollsController < ApplicationController
         render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
     end
 
-    def handle_not_found
-        render json: { message: "Poll not found" }, status: :not_found
+    def handle_not_found(e)
+        render json: { error: e.message }, status: :not_found
     end    
+
+    def handle_generic_error(e)
+        render json: { error: e.message }, status: :bad_request
+    end
 end

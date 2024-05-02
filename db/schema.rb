@@ -10,16 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_01_211818) do
-  create_table "poll_options", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2024_05_01_211704) do
+  create_table "poll_options", id: false, force: :cascade do |t|
+    t.integer "option_num"
     t.string "option_text"
     t.integer "poll_id"
+    t.index ["poll_id", "option_num"], name: "index_poll_options_on_poll_id_and_option_num", unique: true
     t.index ["poll_id"], name: "index_poll_options_on_poll_id"
   end
 
   create_table "polls", force: :cascade do |t|
     t.string "poll_topic"
-    t.integer "creator_id"
+    t.integer "creator_id", null: false
     t.index ["creator_id"], name: "index_polls_on_creator_id"
   end
 
@@ -28,13 +30,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_01_211818) do
     t.string "password_digest"
   end
 
-  create_table "votes", force: :cascade do |t|
-    t.string "option_text"
+  create_table "votes", id: false, force: :cascade do |t|
+    t.integer "option_num"
+    t.integer "user_id"
+    t.integer "poll_id"
     t.integer "poll_option_id"
+    t.index ["poll_id"], name: "index_votes_on_poll_id"
     t.index ["poll_option_id"], name: "index_votes_on_poll_option_id"
+    t.index ["user_id", "poll_id"], name: "index_votes_on_user_id_and_poll_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
   add_foreign_key "poll_options", "polls"
   add_foreign_key "polls", "users", column: "creator_id"
-  add_foreign_key "votes", "poll_options"
+  add_foreign_key "votes", "polls"
+  add_foreign_key "votes", "users"
 end
