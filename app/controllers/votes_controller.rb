@@ -4,9 +4,12 @@ class VotesController < ApplicationController
 
     def create
         p = vote_params
+        puts "Vote params: #{p}"
         if Vote.exists?(user_id: p[:user_id], poll_id: p[:poll_id])
+            puts "Updating existing vote..."
             update(p)
         else
+            puts "Creating new vote..."
             @vote = Vote.create!(p)
             render json: @vote, status: :created
         end
@@ -26,8 +29,8 @@ class VotesController < ApplicationController
     private
 
     def vote_params
-        params.permit(:poll_id, :option).merge(user_id: current_user.id).tap do |p|
-            p[:option_num] = p.delete(:option)
+        params.permit(:poll_id).merge(user_id: current_user.id).merge(request.query_parameters).tap do |p|
+            p[:option_num] = p.delete(:option).to_i
         end
     end
 

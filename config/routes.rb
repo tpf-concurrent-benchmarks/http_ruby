@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get "me" => "users#me"
 
     get "polls" => "polls#index"
-    post "polls/:poll_id/vote" => "votes#create", constraints: { id: /\d+/ }
+    post "polls/:poll_id/vote" => "votes#create", constraints: { poll_id: /\d+/ }
 
     get "polls/:id" => "polls#show", constraints: { id: /\d+/ }
 
