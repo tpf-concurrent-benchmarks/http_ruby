@@ -26,22 +26,20 @@ class ApplicationController < ActionController::API
     end
 
     def current_user
-        if check_expired
-            user_id = decoded_token[0]['user_id']
+        payload = decoded_token
+        if payload.nil?
+            return nil
+        end
+        if check_expired(payload)
+            user_id = payload[0]['user_id']
             @user = User.find_by(id: user_id)
         end
     end
 
-    def check_expired
-        if decoded_token
-            exp = decoded_token[0]['exp']
-            if exp == nil || Time.at(exp) < Time.now
-                return false
-            else
-                return true
-            end
-        end
-        return false
+    def check_expired(payload)
+        puts "Payload: #{payload}"
+        exp = payload[0]['exp']
+        return !exp.nil? && Time.at(exp) >= Time.now
     end
 
     def authorized
