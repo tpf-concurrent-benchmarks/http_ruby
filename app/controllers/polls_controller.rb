@@ -1,4 +1,6 @@
 class PollsController < ApplicationController
+    skip_before_action :authorized, only: [:index, :show]
+    
     rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record
     rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
     rescue_from Exception, with: :handle_generic_error
