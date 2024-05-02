@@ -34,9 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_01_211704) do
     t.integer "option_num"
     t.integer "user_id"
     t.integer "poll_id"
-    t.integer "poll_option_id"
     t.index ["poll_id"], name: "index_votes_on_poll_id"
-    t.index ["poll_option_id"], name: "index_votes_on_poll_option_id"
     t.index ["user_id", "poll_id"], name: "index_votes_on_user_id_and_poll_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
