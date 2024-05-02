@@ -4,10 +4,12 @@ class ApplicationController < ActionController::API
     def initialize
         @secret_key = ENV['SECRET_KEY']
         @algorithm = ENV['ALGORITHM']
+        @exp = ENV['ACCESS_TOKEN_EXPIRE_MINUTES'].to_i.minutes
         super
     end
 
     def encode_token(payload)
+        payload[:exp] = @exp.minutes.from_now.to_i
         JWT.encode(payload, @secret_key, @algorithm)
     end
 
@@ -23,16 +25,28 @@ class ApplicationController < ActionController::API
         end
     end
 
-    def current_user 
-        if decoded_token
+    def current_user
+        if check_expired
             user_id = decoded_token[0]['user_id']
             @user = User.find_by(id: user_id)
         end
     end
 
+    def check_expired
+        if decoded_token
+            exp = decoded_token[0]['exp']
+            if exp == nil || Time.at(exp) < Time.now
+                return false
+            else
+                return true
+            end
+        end
+        return false
+    end
+
     def authorized
         unless !!current_user
-        render json: { message: 'Please log in' }, status: :unauthorized
+            render json: { message: 'Please log in' }, status: :unauthorized
         end
     end
 
