@@ -14,5 +14,6 @@ Rails.application.routes.draw do
     get "polls/:id" => "polls#show", constraints: { id: /\d+/ }
 
     post "polls" => "polls#create"
+    delete "polls/:id" => "polls#destroy", constraints: { id: /\d+/ }
   end
 end

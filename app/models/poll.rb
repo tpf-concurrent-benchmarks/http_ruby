@@ -1,10 +1,6 @@
 class Poll < ApplicationRecord
     belongs_to :creator, class_name: "User"
-    has_many :poll_options
-
-    def yay
-        puts "Yay!"
-    end
+    has_many :poll_options, dependent: :destroy
 
     def self.create!(params)
         check_options(params)
@@ -16,6 +12,14 @@ class Poll < ApplicationRecord
         end
         @poll.save!
         @poll
+    end
+
+    def destroy!(current_user)
+        if current_user.id == self.creator_id
+            self.destroy
+        else
+            raise Exception.new("Only the creator of the poll can delete it")
+        end
     end
 
     private
