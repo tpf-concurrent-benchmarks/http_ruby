@@ -29,3 +29,14 @@
 !/storage/.keep
 /tmp/storage/*
 !/tmp/storage/.keep
+
+# Ignore docker-compose.
+docker-compose.yaml
+
+# Ignore Makefile.
+Makefile
+
+# Ignore graphite database and config
+graphite
+graphite_conf
+
