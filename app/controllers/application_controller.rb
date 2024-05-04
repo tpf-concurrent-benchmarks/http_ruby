@@ -37,7 +37,6 @@ class ApplicationController < ActionController::API
     end
 
     def check_expired(payload)
-        puts "Payload: #{payload}"
         exp = payload[0]['exp']
         return !exp.nil? && Time.at(exp) >= Time.now
     end
