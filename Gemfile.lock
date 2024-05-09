@@ -223,7 +223,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   debug
-  dotenv
+  dotenv (~> 3.1)
   jwt (~> 2.5)
   puma (>= 5.0)
   rack-cors

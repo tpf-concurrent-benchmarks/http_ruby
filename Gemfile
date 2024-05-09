@@ -49,4 +49,4 @@ gem "jwt", "~> 2.5"
 
 gem "active_model_serializers", "~> 0.10.12"
 
-gem 'dotenv', groups: [:development, :test]
+gem "dotenv", "~> 3.1", groups: [:development, :test]
