@@ -4,12 +4,9 @@ class VotesController < ApplicationController
 
     def create
         p = vote_params
-        puts "Vote params: #{p}"
         if Vote.exists?(user_id: p[:user_id], poll_id: p[:poll_id])
-            puts "Updating existing vote..."
             update(p)
         else
-            puts "Creating new vote..."
             @vote = Vote.create!(p)
             render json: @vote, status: :created
         end

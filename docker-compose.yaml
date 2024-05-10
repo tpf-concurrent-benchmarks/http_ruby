@@ -78,7 +78,9 @@ services:
       - ".env:/rails/.env:ro"
       - "./storage:/rails/storage:rw"
     environment:
-      - RAILS_ENV=test
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - DATABASE_URL=${DATABASE_URL}
     ports:
       - "9999:3000"
     deploy:
@@ -100,3 +102,7 @@ services:
 volumes:
   grafana_config:
     external: true
+
+networks:
+  default:
+    attachable: true

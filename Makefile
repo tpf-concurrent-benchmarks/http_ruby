@@ -1,5 +1,12 @@
 -include .env
 
+.EXPORT_ALL_VARIABLES:
+	DATABASE_URL=${DATABASE_URL}
+	SECRET_KEY_BASE=${SECRET_KEY_BASE}
+	POSTGRES_USER=${POSTGRES_USER}
+	POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+	POSTGRES_DB=${POSTGRES_DB}
+
 copy_env:
 	if [ ! -f .env ]; then cp .env.example .env; fi
 
@@ -23,7 +30,6 @@ remove:
 
 deploy: remove build
 	until \
-	POSTGRES_USER=${POSTGRES_USER} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} POSTGRES_DB=${POSTGRES_DB} \
 	docker stack deploy \
 	-c docker-compose.yaml \
 	http_ruby; \

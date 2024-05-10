@@ -22,7 +22,6 @@ class PollsController < ApplicationController
 
     def destroy
         @poll = Poll.find(params[:id])
-        puts "Poll: #{@poll}"
         @poll.destroy!(current_user)
         render json: { message: "Poll deleted" }, status: :ok
     end

@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     def create
         @user = User.find_by!(username: login_params[:username])
         if @user.authenticate(login_params[:password])
-            @token = encode_token({:user_id => @user.id})
+            @token = encode_token({user_id: @user.id})
             render json: {:access_token => @token, :token_type => "bearer"}, status: :ok
         else
             handle_invalid_username_or_password
