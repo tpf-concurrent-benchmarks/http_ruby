@@ -40,3 +40,5 @@ Makefile
 graphite
 graphite_conf
 
+# Ignore postgres database
+postgres_data

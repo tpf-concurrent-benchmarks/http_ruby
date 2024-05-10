@@ -34,3 +34,6 @@
 
 # Ignore graphite database
 graphite
+
+# Ignore postgres database
+postgres_data

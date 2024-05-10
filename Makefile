@@ -1,11 +1,11 @@
-run_local:
-	rails s
+-include .env
 
 copy_env:
 	if [ ! -f .env ]; then cp .env.example .env; fi
 
 create_directories:
 	mkdir -p graphite
+	mkdir -p postgres_data
 
 init:
 	docker swarm init || true
@@ -23,6 +23,7 @@ remove:
 
 deploy: remove build
 	until \
+	POSTGRES_USER=${POSTGRES_USER} POSTGRES_PASSWORD=${POSTGRES_PASSWORD} POSTGRES_DB=${POSTGRES_DB} \
 	docker stack deploy \
 	-c docker-compose.yaml \
 	http_ruby; \
