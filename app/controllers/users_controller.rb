@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     def create 
         user = User.create!(user_params)
         @token = encode_token(user_id: user.id)
-        render plain: @token, status: :ok
+        render json: {:access_token => @token, :token_type => "bearer"}, status: :ok
     end
 
     def me 
