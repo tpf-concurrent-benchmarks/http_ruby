@@ -88,13 +88,13 @@ services:
         condition: none
   
   postgres:
-    image: postgres:12
+    image: postgres:16.2
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - ./data/postgres_data:/var/lib/postgresql/data
     deploy:
       restart_policy:
         condition: none

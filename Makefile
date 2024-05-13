@@ -12,7 +12,7 @@ copy_env:
 
 create_directories:
 	mkdir -p graphite
-	mkdir -p postgres_data
+	mkdir -p data/postgres_data
 
 init:
 	docker swarm init || true
