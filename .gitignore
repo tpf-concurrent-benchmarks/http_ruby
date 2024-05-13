@@ -36,5 +36,5 @@
 graphite
 
 # Ignore postgres database
-postgres_data
+data
 /config/credentials/production.key
