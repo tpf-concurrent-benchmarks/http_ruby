@@ -1,4 +1,4 @@
-class PollOption < ApplicationRecord
+class Option < ApplicationRecord
     self.primary_key = :poll_id, :option_num
 
     belongs_to :poll

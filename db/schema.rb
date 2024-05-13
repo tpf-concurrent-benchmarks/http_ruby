@@ -11,17 +11,20 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_05_01_211704) do
-  create_table "poll_options", id: false, force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "options", id: false, force: :cascade do |t|
     t.integer "option_num"
     t.string "option_text"
-    t.integer "poll_id"
-    t.index ["poll_id", "option_num"], name: "index_poll_options_on_poll_id_and_option_num", unique: true
-    t.index ["poll_id"], name: "index_poll_options_on_poll_id"
+    t.bigint "poll_id"
+    t.index ["poll_id", "option_num"], name: "index_options_on_poll_id_and_option_num", unique: true
+    t.index ["poll_id"], name: "index_options_on_poll_id"
   end
 
   create_table "polls", force: :cascade do |t|
-    t.string "poll_topic"
-    t.integer "creator_id", null: false
+    t.string "title"
+    t.bigint "creator_id", null: false
     t.index ["creator_id"], name: "index_polls_on_creator_id"
   end
 
@@ -32,14 +35,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_01_211704) do
 
   create_table "votes", id: false, force: :cascade do |t|
     t.integer "option_num"
-    t.integer "user_id"
-    t.integer "poll_id"
+    t.bigint "user_id"
+    t.bigint "poll_id"
     t.index ["poll_id"], name: "index_votes_on_poll_id"
     t.index ["user_id", "poll_id"], name: "index_votes_on_user_id_and_poll_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
-  add_foreign_key "poll_options", "polls"
+  add_foreign_key "options", "polls"
   add_foreign_key "polls", "users", column: "creator_id"
   add_foreign_key "votes", "polls"
   add_foreign_key "votes", "users"

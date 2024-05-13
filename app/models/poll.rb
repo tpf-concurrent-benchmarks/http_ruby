@@ -1,13 +1,13 @@
 class Poll < ApplicationRecord
     belongs_to :creator, class_name: "User"
-    has_many :poll_options, dependent: :destroy
+    has_many :options, dependent: :destroy
 
     def self.create!(params)
         check_options(params)
         i = 0
-        @poll = Poll.build(poll_topic: params[:poll_topic], creator_id: params[:creator_id])
+        @poll = Poll.build(title: params[:title], creator_id: params[:creator_id])
         params[:options].each do |option|
-            @poll.poll_options.build(option_num: i, option_text: option)
+            @poll.options.build(option_num: i, option_text: option)
             i += 1
         end
         @poll.save!

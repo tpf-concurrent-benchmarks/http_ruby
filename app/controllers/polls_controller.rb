@@ -7,7 +7,7 @@ class PollsController < ApplicationController
 
     def index 
         @polls = Poll.all
-        render json: @polls, each_serializer: SimplePollSerializer, status: :ok
+        render json: {polls: @polls}, each_serializer: SimplePollSerializer, status: :ok
     end
 
     def show 

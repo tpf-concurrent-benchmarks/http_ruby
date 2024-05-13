@@ -1,4 +1,4 @@
-class PollOptionSerializer < ActiveModel::Serializer
+class OptionSerializer < ActiveModel::Serializer
   attributes :name, :votes
 
   def name

@@ -3,7 +3,7 @@ class Vote < ApplicationRecord
 
     belongs_to :user
     belongs_to :poll
-    belongs_to :poll_option, query_constraints: [:poll_id, :option_num]
+    belongs_to :option, query_constraints: [:poll_id, :option_num]
 
     validates :option_num, presence: true
     validates :user_id, presence: true
